@@ -26,18 +26,19 @@ public class LeaderElection implements Watcher {
 	public void volunteerforLeardership() throws KeeperException, InterruptedException{
 		String znodePrefix = ELECTION_NAMESPACE+ "/c_";
 		String znodeFullPath = zooKeeper.create(znodePrefix, new byte[]{}, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-		System.out.println("znode name " + znodeFullPath);
+		System.out.println("znode fullpath " + znodeFullPath);
 		String replacement;
 		String target;
 		this.currentZnodeName = znodeFullPath.replace(target= ELECTION_NAMESPACE+ "/", replacement= "");
-		
+		System.out.println("znode name: " + this.currentZnodeName);
 	}
 	
 	public void reelectLeader() throws KeeperException, InterruptedException{
 		boolean watch;
 		Stat predecessorStat = null;
 		String predecessorZnodeName = "";
-		while(predecessorStat == null){
+		while(predecessorStat == null)
+		{
 			List<String> children = zooKeeper.getChildren(ELECTION_NAMESPACE, watch=false);
 			Collections.sort(children);
 			String smallestChild = children.get(0);

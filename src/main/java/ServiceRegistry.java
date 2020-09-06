@@ -78,10 +78,12 @@ public class ServiceRegistry implements Watcher{
 		System.out.println("workerZnodes: "+workerZnodes.size());
 		
 		for(String workerZnode: workerZnodes){
-			String workerZnodeFullPath = REGISTRY_ZNODE+"\n"+ workerZnode;
-			boolean watch;			
+			String workerZnodeFullPath = REGISTRY_ZNODE+"/"+ workerZnode;
+			boolean watch;
+			System.out.println("workerZnodeFullPath: "+workerZnodeFullPath);
 			Stat stat = zooKeeper.exists(workerZnodeFullPath, watch=false);
 			if(stat == null){
+				System.out.println("workerZnodeFullPath: "+workerZnodeFullPath);
 				continue;
 			}
 			byte[] addressBytes = zooKeeper.getData(workerZnodeFullPath, watch=false, stat);
